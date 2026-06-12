@@ -1,0 +1,32 @@
+name: MLflow Docker CI
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'CI_Workflow_Heri-rahmansyah/**'
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./CI_Workflow_Heri-rahmansyah
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Docker Image
+        run: |
+          docker build -t hr-attrition-mlflow .
+
+      - name: Verify Docker Image
+        run: |
+          docker image ls hr-attrition-mlflow
+          echo "Docker image built successfully!"
